@@ -1,14 +1,12 @@
 from .Personaje import Personaje
-from Controles import Controles
+
+Sprites = ["Imagenes/Sprites/LanceWalkingL.gif"]
 
 
 class Jugador1(Personaje):
 
-    def __init__(self, control):
-        controles = Controles()
-        Personaje.__init__(
-            self, 50, None, controles.teclasMovimiento, 500, 500)
-        # self.sprites = None
+    def __init__(self):
+        Personaje.__init__(self, 50, Sprites, 50, 50, 10)
 
     def morir(self):
         self.vida = 50

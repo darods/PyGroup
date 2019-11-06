@@ -8,8 +8,8 @@ ventana = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("contra")
 
 
-jugador = Jugador1(None)
-
+jugador = Jugador1()
+imagen1 = pygame.image.load("Imagenes/Sprites/LanceWalkingL.gif")
 
 run = True
 
@@ -22,9 +22,17 @@ while run:
     key = pygame.key.get_pressed()
 
     if key[pygame.K_w]:
-        print(jugador.getTeclasMovimiento(0))
-        print('\n')
+        print("hola")
 
-    if (jugador.getTeclasMovimiento(3)):
-        print(jugador.getTeclasMovimiento(0))
-        print('\n')
+    if key[pygame.K_a]:
+        jugador.mover_izq()
+
+    if key[pygame.K_d]:
+        jugador.mover_der()
+
+    ventana.fill((200, 0, 0))
+    ventana.blit(imagen1,
+                 (jugador.Pos_x, jugador.Pos_y))
+    pygame.display.update()
+
+pygame.quit()  # Se cierra pygame
