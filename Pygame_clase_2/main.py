@@ -1,5 +1,6 @@
 import pygame as pg
 from configuracion import *
+from sprites import *
 
 
 class Juego:
@@ -13,6 +14,15 @@ class Juego:
     def nuevo(self):
         # inicia un nuevo juego
         self.all_sprites = pg.sprite.Group()
+        self.platafaformas = pg.sprite.Group()
+        self.jugador = Jugador()
+        self.all_sprites.add(self.jugador)
+        p1 = Plataforma(0, Alto - 40, Ancho, 40)
+        self.all_sprites.add(p1)
+        self.platafaformas.add(p1)
+        p2 = Plataforma(Ancho / 2 - 50, Alto * 3 / 4, 100, 20)
+        self.all_sprites.add(p2)
+        self.platafaformas.add(p2)
         self.run()
 
     def run(self):
@@ -26,14 +36,19 @@ class Juego:
 
     def actualizar(self):
         self.all_sprites.update()
+        colision = pg.sprite.spritecollide(
+            self.jugador, self.platafaformas, False)
+        if colision:
+            self.jugador.pos.y = colision[0].rect.top
+            self.jugador.vel.y = 0
+            self.jugador.rect.midbottom = self.jugador.pos  # corrige los micro saltos
 
     def eventos(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:  # Se sale del juego
-                self.jugando = False
+                if self.jugando:
+                    self.jugando = False
                 self.corriendo = False
-
-        key = pg.key.get_pressed()
 
     def draw(self):
         self.ventana.fill(Blanco)
