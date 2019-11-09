@@ -9,7 +9,7 @@ pygame.display.set_caption("contra")
 
 
 jugador = Jugador1()
-imagen1 = pygame.image.load("Imagenes/Sprites/LanceWalkingL.gif")
+imagen1 = pygame.image.load("Imagenes/Sprites/LanceUP.png")
 
 run = True
 
