@@ -1,20 +1,32 @@
 import pygame
-
+from configuracion import *
 from Personajes.Jugador1 import Jugador1
 
 pygame.init()
 
-ventana = pygame.display.set_mode((500, 500))
-pygame.display.set_caption("contra")
-
+ventana = pygame.display.set_mode((Ancho, Alto))
+pygame.display.set_caption(Titulo)
+clock = pygame.time.Clock()
 
 jugador = Jugador1()
-imagen1 = pygame.image.load("Imagenes/Sprites/LanceUP.png")
+caminando_der = [pygame.image.load("Imagenes/Sprites/dogge_der_1.png"),
+                 pygame.image.load("Imagenes/Sprites/dogge_der_2.png")]
+
+derecha = False
+walkCount = 0
 
 run = True
 
+
+def redibujarVentana():
+    global walkCount
+    ventana.fill(Blanco)
+    # ventana.blit(imagen1,(jugador.Pos_x, jugador.Pos_y))
+    pygame.display.update()
+
+
 while run:
-    pygame.time.delay(30)
+    clock.tick(FPS)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # Se sale del juego
@@ -30,9 +42,6 @@ while run:
     if key[pygame.K_d]:
         jugador.mover_der()
 
-    ventana.fill((200, 0, 0))
-    ventana.blit(imagen1,
-                 (jugador.Pos_x, jugador.Pos_y))
-    pygame.display.update()
+    redibujarVentana()
 
 pygame.quit()  # Se cierra pygame
