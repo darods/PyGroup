@@ -4,8 +4,9 @@ vector = pg.math.Vector2
 
 
 class Jugador(pg.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, juego):
         pg.sprite.Sprite.__init__(self)
+        self.game = juego
         self.image = pg.Surface((30, 40))
         self.image.fill(Rojo)
         self.rect = self.image.get_rect()
@@ -14,8 +15,16 @@ class Jugador(pg.sprite.Sprite):
         self.vel = vector(0, 0)
         self.acc = vector(0, 0)
 
+    def jump(self):
+        # salta solo si está en una plataforma
+        self.rect.y += 1
+        hits = pg.sprite.spritecollide(self, self.game.platafaformas, False)
+        self.rect.y -= 1
+        if hits:
+            self.vel.y = -20
+
     def update(self):
-        self.acc = vector(0, 0.5)
+        self.acc = vector(0, gravedad)
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT]:
             self.acc.x = -acc_jugador
