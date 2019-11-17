@@ -3,6 +3,8 @@ Ancho = 1000
 Alto = 500
 FPS = 60
 Fuente = "arial"
+SPRITESHEET = "spritesheet_jumper.png"
+
 # propiedades del jugador
 acc_jugador = 0.5
 friccion_jugador = -0.12

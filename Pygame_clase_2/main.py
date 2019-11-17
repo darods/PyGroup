@@ -1,6 +1,7 @@
 import pygame as pg
 from configuracion import *
 from sprites import *
+from os import path
 
 
 class Juego:
@@ -11,6 +12,13 @@ class Juego:
         self.clock = pg.time.Clock()
         self.corriendo = True
         self.fuente = pg.font.match_font(Fuente)
+        self.load_data()
+
+    def load_data(self):
+        self.dir = path.dirname(__file__)
+        img_dir = path.join(self.dir, 'Imagenes/Spritesheets')
+
+        self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
 
     def nuevo(self):
         # inicia un nuevo juego

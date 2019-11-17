@@ -3,12 +3,23 @@ from configuracion import *
 vector = pg.math.Vector2
 
 
+class Spritesheet:
+    def __init__(self, filename):
+        self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        image = pg.transform.scale(image, (width // 2, height // 2))
+        return image
+
+
 class Jugador(pg.sprite.Sprite):
     def __init__(self, juego):
         pg.sprite.Sprite.__init__(self)
         self.game = juego
-        self.image = pg.Surface((30, 40))
-        self.image.fill(Rojo)
+        self.image = self.game.spritesheet.get_image(692, 1458, 120, 207)
+        self.image.set_colorkey(Negro)
         self.rect = self.image.get_rect()
         self.rect.center = (Ancho / 2, Alto / 2)
         self.pos = vector(Ancho / 2, Alto / 2)
