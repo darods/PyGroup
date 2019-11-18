@@ -50,9 +50,10 @@ class Juego:
             colision = pg.sprite.spritecollide(
                 self.jugador, self.platafaformas, False)
             if colision:
-                self.jugador.pos.y = colision[0].rect.top
-                self.jugador.vel.y = 0
-                self.jugador.rect.midbottom = self.jugador.pos  # corrige los micro saltos
+                if self.jugador.pos.y < colision[0].rect.bottom:
+                    self.jugador.pos.y = colision[0].rect.top
+                    self.jugador.vel.y = 0
+                    self.jugador.rect.midbottom = self.jugador.pos  # corrige los micro saltos
 
         # si el jugador llega a el lado der
         if self.jugador.rect.right >= Ancho / 6:
