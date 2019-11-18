@@ -17,6 +17,7 @@ ALTO_JUGADOR = 50
 GRAVEDAD = 0.8
 FRICCCION = -0.12
 ACC_JUGADOR = 0.5
+SPRITESHEET = "spritesheet_jumper.png"
 
 
 # lista plataformas
