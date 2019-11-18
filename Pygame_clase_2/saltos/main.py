@@ -1,29 +1,51 @@
-# Por "norma" llamaremos a este archivo main.py
-import pygame as pg  # el 'as' sirve para hacer abreviaciones
+import pygame as pg
 from configuracion import *
-# el * nos sirve para usar otro archivo sin tener que hacer referencia directa
+from sprites import *
 
 
 class Juego:
-    def __init__(self):  # Se inicializa todo lo necesario para que corra
+    def __init__(self):
         pg.init()
-        # Las variables que están en MAYÚSCULAS se colocarán en un archivo adicional llamado configuracion.py
         self.ventana = pg.display.set_mode((ANCHO, ALTO))
         pg.display.set_caption(TITULO)
         self.clock = pg.time.Clock()
         self.corriendo = True
 
-    def nuevo(self):  # inicia un nuevo juego
-        # Aquí colocaremos todos los elementos del juego
+    def nuevo(self):
+        # inicia un nuevo juego
+        self.puntaje = 0
+        self.all_sprites = pg.sprite.Group()
+        self.platafaformas = pg.sprite.Group()
+        self.jugador = Jugador(self)
+        self.all_sprites.add(self.jugador)
+
+        # añadimos cada una de las plataformas
+        for plat in Lista_plataformas:
+            p = Plataforma(*plat)  # el * sirve para descomponer cada elemento
+            self.all_sprites.add(p)
+            self.platafaformas.add(p)
+
         self.run()
 
-    def run(self):  # loop del juego
+    def run(self):
+        # loop del juego
         self.jugando = True
         while self.jugando:
             self.clock.tick(FPS)
             self.eventos()
             self.actualizar()
             self.draw()
+
+    def actualizar(self):
+        self.all_sprites.update()
+        if self.jugador.vel.y > 0:
+            colision = pg.sprite.spritecollide(
+                self.jugador, self.platafaformas, False)
+            if colision:
+                if self.jugador.pos.y < colision[0].rect.bottom:
+                    self.jugador.pos.y = colision[0].rect.top
+                    self.jugador.vel.y = 0
+                    self.jugador.rect.midbottom = self.jugador.pos  # corrige los micro saltos
 
     def eventos(self):
         for event in pg.event.get():
@@ -32,11 +54,14 @@ class Juego:
                     self.jugando = False
                 self.corriendo = False
 
-    def actualizar(self):  # Revisará que ha cambiado y tomará decisiones
-        pass
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_SPACE:
+                    self.jugador.jump()
 
-    def draw(self):  # Re dibuja la pantalla
-        pass
+    def draw(self):
+        self.ventana.fill(BLANCO)
+        self.all_sprites.draw(self.ventana)
+        pg.display.flip()
 
     def pantalla_inicio(self):
         pass
