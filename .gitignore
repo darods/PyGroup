@@ -1,0 +1,4 @@
+__pycache__/
+/game_loop/__pycache__/
+.ipynb_checkpoints/
+environment/
